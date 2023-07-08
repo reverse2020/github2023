@@ -8,7 +8,7 @@ public class CustomerVanillaApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(CustomerVanillaApplication.class, args);
-	//test commit 99
+	//test commit 100
 		 
 	}
 
