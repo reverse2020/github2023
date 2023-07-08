@@ -3,6 +3,8 @@ package com.v3;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Component;
@@ -29,7 +31,12 @@ public class DataLoader {
 
 		List<Customer> readAppData = this.readAppData();
 		long count = readAppData.stream().count();
+		Map<String, Long> collect = readAppData
+				.stream()
+				.collect(Collectors.groupingBy(Customer::gender,Collectors.counting()));
+
 		log.info("The JSON file has {} customers",count);
+		log.info ("Stats :: {}",collect);
 	}
 
 	private List<Customer> readAppData() throws IOException {
