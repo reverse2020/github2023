@@ -29,8 +29,14 @@ public class CustomerService {
 
 		log.info("The JSON file has {} customers",customers.stream().count());
 		log.info ("Stats :: {}",collect);
-		stats.put("The JSON file has customers # :: ", customers.stream().count());
+		stats.put("The JSON file has total customers # :: ", customers.stream().count());
 		stats.put("Group by Gender :: ", collect);
+		Double totalSalary = customers
+		.stream()
+		.map(customer -> customer.salary())
+		.reduce(0d,Double::sum);
+		
+		stats.put("Total Salary :: ", totalSalary);
 		return stats;
 	}
 
