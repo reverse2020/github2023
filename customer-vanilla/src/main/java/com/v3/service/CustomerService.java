@@ -8,7 +8,7 @@ import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.v3.DataLoader;
+import com.v3.load.DataLoader;
 import com.v3.record.Customer;
 
 import lombok.extern.slf4j.Slf4j;
