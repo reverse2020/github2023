@@ -20,7 +20,11 @@ import lombok.extern.slf4j.Slf4j;
 @Component
 public class DataLoader {
 	private static final String APP_LOADER_FILE = "static/customers.json";
+	List<Customer> customers = readAppData();
 
+	public List<Customer> getCustomers() {
+		return customers;
+	}
 	@PostConstruct
 	public void loadData() throws IOException {
 		log.info("Initiating DataLoader");
@@ -29,9 +33,8 @@ public class DataLoader {
 
 	private void loadMassageIntakeAppData() throws IOException {
 
-		List<Customer> readAppData = this.readAppData();
-		long count = readAppData.stream().count();
-		Map<String, Long> collect = readAppData
+		long count = customers.stream().count();
+		Map<String, Long> collect = customers
 				.stream()
 				.collect(Collectors.groupingBy(Customer::gender,Collectors.counting()));
 
@@ -39,11 +42,19 @@ public class DataLoader {
 		log.info ("Stats :: {}",collect);
 	}
 
-	private List<Customer> readAppData() throws IOException {
+	private List<Customer> readAppData() {
 		ObjectMapper objectMapper = new ObjectMapper();
+		try {
 		InputStream massageIntakeAppDataInputStream = new ClassPathResource(APP_LOADER_FILE).getInputStream();
-		return objectMapper.readValue(massageIntakeAppDataInputStream, new TypeReference<List<Customer>>() {
-		});
+			 customers = objectMapper.readValue(massageIntakeAppDataInputStream, new TypeReference<List<Customer>>() {
+			});
+			return customers;
+		
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return customers;
 	}
 
 }
