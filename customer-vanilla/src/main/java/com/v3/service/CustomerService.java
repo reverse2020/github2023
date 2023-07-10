@@ -16,26 +16,22 @@ import lombok.extern.slf4j.Slf4j;
 @Service
 @Slf4j
 public class CustomerService {
-	
+
 	@Autowired
 	DataLoader dataLoader;
-	
-	public Map<String, Object> getStats() {
-		Map<String, Object> stats =new HashMap<>();
-		List<Customer> customers = dataLoader.getCustomers();
-		Map<String, Long> collect = customers
-				.stream()
-				.collect(Collectors.groupingBy(Customer::gender,Collectors.counting()));
 
-		log.info("The JSON file has {} customers",customers.stream().count());
-		log.info ("Stats :: {}",collect);
+	public Map<String, Object> getStats() {
+		Map<String, Object> stats = new HashMap<>();
+		List<Customer> customers = dataLoader.getCustomers();
+		Map<String, Long> collect = customers.stream()
+				.collect(Collectors.groupingBy(Customer::gender, Collectors.counting()));
+
+		log.info("The JSON file has {} customers", customers.stream().count());
+		log.info("Stats :: {}", collect);
 		stats.put("The JSON file has total customers # :: ", customers.stream().count());
 		stats.put("Group by Gender :: ", collect);
-		Double totalSalary = customers
-		.stream()
-		.map(customer -> customer.salary())
-		.reduce(0d,Double::sum);
-		
+		Double totalSalary = customers.stream().map(customer -> customer.salary()).reduce(0d, Double::sum);
+
 		stats.put("Total Salary :: ", totalSalary);
 		return stats;
 	}
